@@ -1,5 +1,5 @@
 # Load required packages
-packages <- c("caret", "randomForest", "glmnet", "xgboost", "gbm", "nnet", "ggplot2", "reshape2", "pROC")
+packages <- c("caret", "randomForest", "glmnet", "gbm", "nnet", "ggplot2", "reshape2", "pROC")
 
 for(pkg in packages){
   if(!require(pkg, character.only = TRUE)){
