@@ -1,3 +1,6 @@
+# Clean objects in workspace
+rm(list = ls())
+
 # Load required packages
 packages <- c("caret", "randomForest", "glmnet", "gbm", "nnet", "ggplot2", "reshape2", "pROC")
 
@@ -22,7 +25,6 @@ print(summary(heart_failure))
 continuous_vars <- c("age", "creatinine_phosphokinase", "ejection_fraction",
                      "platelets", "serum_creatinine", "serum_sodium", "time")
 
-dev.new(width = 8, height = 4)
 par(mfrow=c(2,4))
 for (var in continuous_vars) {
   hist(heart_failure[[var]], main = paste("Histogram of", var), 
@@ -31,7 +33,6 @@ for (var in continuous_vars) {
 
 categorical_vars <- c("anaemia", "diabetes", "high_blood_pressure", "sex", "smoking", "fatal_mi")
 
-dev.new(width = 8, height = 4)
 par(mfrow = c(2, 3))
 for (var in categorical_vars) {
   barplot(table(heart_failure[[var]]),
@@ -64,7 +65,6 @@ print(summary(heart_failure_preprocessed[continuous_vars_preprocessed]))
 
 ## Show Preprocess Data
 
-dev.new(width = 8, height = 4)
 par(mfrow = c(2, 4))
 for (var in continuous_vars_preprocessed) {
   hist(heart_failure_preprocessed[[var]],
@@ -117,7 +117,6 @@ for(i in 1:nrow(tune_grid)){
   tune_grid$OOB_Error[i] <- rf_fit$err.rate[current_ntree, "OOB"]
 }
 
-dev.new(width = 8, height = 4)
 p <- ggplot(tune_grid, aes(x = factor(mtry), y = OOB_Error, fill = factor(nodesize))) +
   geom_bar(stat = "identity", position = "dodge") +
   facet_wrap(~ ntree, labeller = label_both) +
@@ -143,7 +142,6 @@ lr_tuned <- train(fatal_mi ~ . - weight,
                   tuneGrid = lr_grid,
                   metric = "ROC")
 
-dev.new(width = 8, height = 4)
 print(plot(lr_tuned))
 
 print(lr_tuned$bestTune)
@@ -222,7 +220,6 @@ rownames(metrics_df) <- NULL
 
 metrics_melt <- melt(metrics_df, id.vars = "Threshold")
 
-dev.new(width = 8, height = 4)
 p <- ggplot(metrics_melt, aes(x = Threshold, y = value, color = variable)) +
   geom_line(linewidth = 1.2) +
   geom_point(size = 2) +
@@ -324,7 +321,6 @@ stack_metrics <- c(Accuracy = stack_acc, AUC = stack_auc,
 compare_df <- rbind(base_df, data.frame(Model = "StackingEnsemble", t(stack_metrics)))
 print(compare_df)
 
-dev.new(width = 8, height = 4)
 compare_melt <- melt(compare_df, id.vars = "Model")
 p <- ggplot(compare_melt, aes(x = Model, y = as.numeric(value), fill = variable)) +
   geom_bar(stat = "identity", position = position_dodge()) +
