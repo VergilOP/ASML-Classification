@@ -1,4 +1,7 @@
 ```{r}
+# Clean the objects of the workspace
+rm(list = ls())
+
 # Load required packages
 
 packages <- c("caret", "randomForest", "glmnet", "gbm", "nnet", "ggplot2", "reshape2", "pROC")
